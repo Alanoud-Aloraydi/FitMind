@@ -7,7 +7,7 @@ Built as a role-based e-learning platform around healthy-eating topics.
 > **University:** King Saud University — Information Technology
 > **Course:** IT329 — Web Application Development
 
-**Live demo:** _add your hosting link here after deployment_
+**Live demo:** <https://fitmind.is-great.net>
 
 **Demo accounts** (from the seed data):
 | Role     | Email                | Password     |
