@@ -6,19 +6,19 @@ header('Content-Type: application/json');
 $topicId = isset($_GET['topicID']) ? intval($_GET['topicID']) : 0;
 
 if ($topicId === 0) {
-    $sql = "SELECT Quiz.id, Topic.topicName, User.firstName, User.lastName, User.photoFileName,
-            (SELECT COUNT(*) FROM QuizQuestion WHERE QuizQuestion.quizID = Quiz.id) AS questionCount
-            FROM Quiz
-            JOIN Topic ON Quiz.topicID = Topic.id
-            JOIN User ON Quiz.educatorID = User.id";
+    $sql = "SELECT quiz.id, topic.topicName, user.firstName, user.lastName, user.photoFileName,
+            (SELECT COUNT(*) FROM quizquestion WHERE quizquestion.quizID = quiz.id) AS questionCount
+            FROM quiz
+            JOIN topic ON quiz.topicID = topic.id
+            JOIN user ON quiz.educatorID = user.id";
     $stmt = $conn->prepare($sql);
 } else {
-    $sql = "SELECT Quiz.id, Topic.topicName, User.firstName, User.lastName, User.photoFileName,
-            (SELECT COUNT(*) FROM QuizQuestion WHERE QuizQuestion.quizID = Quiz.id) AS questionCount
-            FROM Quiz
-            JOIN Topic ON Quiz.topicID = Topic.id
-            JOIN User ON Quiz.educatorID = User.id
-            WHERE Quiz.topicID = ?";
+    $sql = "SELECT quiz.id, topic.topicName, user.firstName, user.lastName, user.photoFileName,
+            (SELECT COUNT(*) FROM quizquestion WHERE quizquestion.quizID = quiz.id) AS questionCount
+            FROM quiz
+            JOIN topic ON quiz.topicID = topic.id
+            JOIN user ON quiz.educatorID = user.id
+            WHERE quiz.topicID = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $topicId);
 }

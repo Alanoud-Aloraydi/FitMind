@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     // Verify quiz belongs to educator
-    $verifyStmt = $conn->prepare("SELECT id FROM Quiz WHERE id = ? AND educatorID = ?");
+    $verifyStmt = $conn->prepare("SELECT id FROM quiz WHERE id = ? AND educatorID = ?");
     $verifyStmt->bind_param("ii", $quizID, $_SESSION['userID']);
     $verifyStmt->execute();
     $verifyResult = $verifyStmt->get_result();
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     // Insert question into database
-    $insertQuery = "INSERT INTO QuizQuestion (quizID, question, questionFigureFileName, answerA, answerB, answerC, answerD, correctAnswer) 
+    $insertQuery = "INSERT INTO quizquestion (quizID, question, questionFigureFileName, answerA, answerB, answerC, answerD, correctAnswer) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($insertQuery);
     $stmt->bind_param("isssssss", $quizID, $question, $imageFileName, $answerA, $answerB, $answerC, $answerD, $correctAnswer);

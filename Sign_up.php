@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $userType  = $_POST['userType'];
 
     // Check if email exists
-    $stmt = $conn->prepare("SELECT id FROM User WHERE emailAddress=?");
+    $stmt = $conn->prepare("SELECT id FROM user WHERE emailAddress=?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // !!!3!!! Insert user
-    $insert = $conn->prepare("INSERT INTO User (firstName,lastName,emailAddress,password,photoFileName,userType) VALUES (?,?,?,?,?,?)");
+    $insert = $conn->prepare("INSERT INTO user (firstName,lastName,emailAddress,password,photoFileName,userType) VALUES (?,?,?,?,?,?)");
     $insert->bind_param("ssssss", $firstName, $lastName, $email, $hashedPassword, $photoFileName, $userType);
     $insert->execute();
     $userID = $insert->insert_id;
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If educator → insert quizzes for each topic
     if ($userType === "educator" && isset($_POST['topics'])) {
         foreach ($_POST['topics'] as $topicID) {
-            $q = $conn->prepare("INSERT INTO Quiz (educatorID, topicID) VALUES (?,?)");
+            $q = $conn->prepare("INSERT INTO quiz (educatorID, topicID) VALUES (?,?)");
             $q->bind_param("ii", $userID, $topicID);
             $q->execute();
         }

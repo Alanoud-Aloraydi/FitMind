@@ -46,14 +46,14 @@ if ( $_SESSION['userType'] !== 'learner') {
 $userId = $_SESSION['userID'];
 
 // (b) Get user info
-$userQuery = $conn->prepare("SELECT firstName, lastName, emailAddress, photoFileName FROM User WHERE id = ?");
+$userQuery = $conn->prepare("SELECT firstName, lastName, emailAddress, photoFileName FROM user WHERE id = ?");
 $userQuery->bind_param("i", $userId);
 $userQuery->execute();
 $userResult = $userQuery->get_result();
 $user = $userResult->fetch_assoc();
 
 // (c) Get topics for filter form
-$topics = $conn->query("SELECT id, topicName FROM Topic");
+$topics = $conn->query("SELECT id, topicName FROM topic");
 
 // Check if request is POST (filter by topic) or GET (all quizzes)
 /*$filterTopicId = null;
@@ -61,21 +61,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['topic'])) {
     $filterTopicId = intval($_POST['topic']);
     
     $quizQuery = $conn->prepare("
-        SELECT Quiz.id, Topic.topicName, User.firstName, User.lastName, User.photoFileName,
-        (SELECT COUNT(*) FROM QuizQuestion WHERE QuizQuestion.quizID = Quiz.id) as questionCount
-        FROM Quiz
-        JOIN Topic ON Quiz.topicID = Topic.id
-        JOIN User ON Quiz.educatorID = User.id
-        WHERE Quiz.topicID = ?
+        SELECT quiz.id, topic.topicName, user.firstName, user.lastName, user.photoFileName,
+        (SELECT COUNT(*) FROM quizquestion WHERE quizquestion.quizID = quiz.id) as questionCount
+        FROM quiz
+        JOIN topic ON quiz.topicID = topic.id
+        JOIN user ON quiz.educatorID = user.id
+        WHERE quiz.topicID = ?
     ");
     // me
     if($filterTopicId==0){
          $quizzes = $conn->query("
-        SELECT Quiz.id, Topic.topicName, User.firstName, User.lastName, User.photoFileName,
-        (SELECT COUNT(*) FROM QuizQuestion WHERE QuizQuestion.quizID = Quiz.id) as questionCount
-        FROM Quiz
-        JOIN Topic ON Quiz.topicID = Topic.id
-        JOIN User ON Quiz.educatorID = User.id
+        SELECT quiz.id, topic.topicName, user.firstName, user.lastName, user.photoFileName,
+        (SELECT COUNT(*) FROM quizquestion WHERE quizquestion.quizID = quiz.id) as questionCount
+        FROM quiz
+        JOIN topic ON quiz.topicID = topic.id
+        JOIN user ON quiz.educatorID = user.id
     ");
     }
     else{
@@ -85,23 +85,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['topic'])) {
     $quizzes = $quizQuery->get_result();}// end me
 } else {*/
     $quizzes = $conn->query("
-        SELECT Quiz.id, Topic.topicName, User.firstName, User.lastName, User.photoFileName,
-        (SELECT COUNT(*) FROM QuizQuestion WHERE QuizQuestion.quizID = Quiz.id) as questionCount
-        FROM Quiz
-        JOIN Topic ON Quiz.topicID = Topic.id
-        JOIN User ON Quiz.educatorID = User.id
+        SELECT quiz.id, topic.topicName, user.firstName, user.lastName, user.photoFileName,
+        (SELECT COUNT(*) FROM quizquestion WHERE quizquestion.quizID = quiz.id) as questionCount
+        FROM quiz
+        JOIN topic ON quiz.topicID = topic.id
+        JOIN user ON quiz.educatorID = user.id
     ");
     
 /*}*/
 
 // (f) Recommended questions by learner
 $recQuery = $conn->prepare("
-    SELECT RecommendedQuestion.*, Topic.topicName, User.firstName, User.lastName, User.photoFileName
-    FROM RecommendedQuestion
-    JOIN Quiz ON RecommendedQuestion.quizID = Quiz.id
-    JOIN Topic ON Quiz.topicID = Topic.id
-    JOIN User ON Quiz.educatorID = User.id
-    WHERE RecommendedQuestion.learnerID = ?
+    SELECT recommendedquestion.*, topic.topicName, user.firstName, user.lastName, user.photoFileName
+    FROM recommendedquestion
+    JOIN quiz ON recommendedquestion.quizID = quiz.id
+    JOIN topic ON quiz.topicID = topic.id
+    JOIN user ON quiz.educatorID = user.id
+    WHERE recommendedquestion.learnerID = ?
 ");
 $recQuery->bind_param("i", $userId);
 $recQuery->execute();

@@ -21,7 +21,7 @@ $successMessage = "";
 $errorMessage = "";
 
 // Get question data
-$questionQuery = "SELECT * FROM QuizQuestion WHERE id = ?";
+$questionQuery = "SELECT * FROM quizquestion WHERE id = ?";
 $stmt = $conn->prepare($questionQuery);
 $stmt->bind_param("i", $questionID);
 $stmt->execute();
@@ -35,7 +35,7 @@ if (!$question) {
 $quizID = $question['quizID'];
 
 // Verify the question belongs to the current educator
-$verifyStmt = $conn->prepare("SELECT q.id FROM Quiz q WHERE q.id = ? AND q.educatorID = ?");
+$verifyStmt = $conn->prepare("SELECT q.id FROM quiz q WHERE q.id = ? AND q.educatorID = ?");
 $verifyStmt->bind_param("ii", $quizID, $_SESSION['userID']);
 $verifyStmt->execute();
 $verifyResult = $verifyStmt->get_result();

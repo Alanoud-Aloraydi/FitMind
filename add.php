@@ -21,7 +21,7 @@ $successMessage = "";
 $errorMessage = "";
 
 // Verify quiz belongs to educator
-$verifyStmt = $conn->prepare("SELECT id FROM Quiz WHERE id = ? AND educatorID = ?");
+$verifyStmt = $conn->prepare("SELECT id FROM quiz WHERE id = ? AND educatorID = ?");
 $verifyStmt->bind_param("ii", $quizID, $_SESSION['userID']);
 $verifyStmt->execute();
 $verifyResult = $verifyStmt->get_result();

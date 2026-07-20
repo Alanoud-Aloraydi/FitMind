@@ -28,9 +28,9 @@ $quizID = intval($_POST['quizID']);
 $selected_qids = $_POST['selected_qids'] ?? [];
 
 $stmt = $conn->prepare("SELECT q.id, t.topicName, u.firstName, u.lastName, u.photoFileName 
-                        FROM Quiz q 
-                        JOIN Topic t ON q.topicID = t.id 
-                        JOIN User u ON q.educatorID = u.id 
+                        FROM quiz q 
+                        JOIN topic t ON q.topicID = t.id 
+                        JOIN user u ON q.educatorID = u.id 
                         WHERE q.id = ?");
 $stmt->bind_param("i", $quizID);
 $stmt->execute();
@@ -58,7 +58,7 @@ if ($totalQuestions > 0) {
 
         $user_answer = isset($_POST["answer_" . $questionID]) ? strtoupper(trim($_POST["answer_" . $questionID])) : '';
 
-        $stmt = $conn->prepare("SELECT correctAnswer FROM QuizQuestion WHERE id = ?");
+        $stmt = $conn->prepare("SELECT correctAnswer FROM quizquestion WHERE id = ?");
         $stmt->bind_param("i", $questionID);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -82,7 +82,7 @@ if ($row) {
     $totalQuestions = 0;
 }
 
-$stmt = $conn->prepare("INSERT INTO TakenQuiz (quizID, score) VALUES (?, ?)");
+$stmt = $conn->prepare("INSERT INTO takenquiz (quizID, score) VALUES (?, ?)");
 $score_to_store = intval($percentage);
 $stmt->bind_param("ii", $quizID, $score_to_store);
 $stmt->execute();

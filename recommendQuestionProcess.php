@@ -59,7 +59,7 @@ if (isset($_FILES['questionFile']) && is_uploaded_file($_FILES['questionFile']['
 }
 
 
-$stmt = $conn->prepare("SELECT id FROM Quiz WHERE topicID = ? AND educatorID = ? LIMIT 1");
+$stmt = $conn->prepare("SELECT id FROM quiz WHERE topicID = ? AND educatorID = ? LIMIT 1");
 $stmt->bind_param("ii", $topicID, $educatorID);
 $stmt->execute();
 $quiz = $stmt->get_result()->fetch_assoc();
@@ -73,7 +73,7 @@ if (!$quiz) {
 $quizID = intval($quiz['id']);
 
 $insert = $conn->prepare("
-INSERT INTO RecommendedQuestion
+INSERT INTO recommendedquestion
 (quizID, learnerID, question, questionFigureFileName, answerA, answerB, answerC, answerD, correctAnswer, status, comments)
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending', '')
 ");

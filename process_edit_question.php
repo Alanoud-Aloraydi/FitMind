@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correctAnswer = $conn->real_escape_string($_POST['correctAnswer']);
     
     // Get current question data
-    $currentQuery = "SELECT questionFigureFileName FROM QuizQuestion WHERE id = ?";
+    $currentQuery = "SELECT questionFigureFileName FROM quizquestion WHERE id = ?";
     $stmt = $conn->prepare($currentQuery);
     $stmt->bind_param("i", $questionID);
     $stmt->execute();
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     // Verify the question belongs to the current educator
-    $verifyStmt = $conn->prepare("SELECT q.id FROM Quiz q WHERE q.id = ? AND q.educatorID = ?");
+    $verifyStmt = $conn->prepare("SELECT q.id FROM quiz q WHERE q.id = ? AND q.educatorID = ?");
     $verifyStmt->bind_param("ii", $quizID, $_SESSION['userID']);
     $verifyStmt->execute();
     $verifyResult = $verifyStmt->get_result();
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     // Update question in database
-    $updateQuery = "UPDATE QuizQuestion SET question = ?, questionFigureFileName = ?, answerA = ?, answerB = ?, answerC = ?, answerD = ?, correctAnswer = ? WHERE id = ?";
+    $updateQuery = "UPDATE quizquestion SET question = ?, questionFigureFileName = ?, answerA = ?, answerB = ?, answerC = ?, answerD = ?, correctAnswer = ? WHERE id = ?";
     $stmt = $conn->prepare($updateQuery);
     $stmt->bind_param("sssssssi", $questionText, $newImageFileName, $answerA, $answerB, $answerC, $answerD, $correctAnswer, $questionID);
     

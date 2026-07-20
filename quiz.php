@@ -25,8 +25,8 @@ if ($quizID === 0) {
 
 // Get quiz details
 $quizQuery = "SELECT q.*, t.topicName 
-              FROM Quiz q 
-              JOIN Topic t ON q.topicID = t.id 
+              FROM quiz q 
+              JOIN topic t ON q.topicID = t.id 
               WHERE q.id = ? AND q.educatorID = ?";
 $stmt = $conn->prepare($quizQuery);
 $stmt->bind_param("ii", $quizID, $_SESSION['userID']);
@@ -39,7 +39,7 @@ if (!$quiz) {
 }
 
 // Get questions for this quiz
-$questionsQuery = "SELECT * FROM QuizQuestion WHERE quizID = ? ORDER BY id";
+$questionsQuery = "SELECT * FROM quizquestion WHERE quizID = ? ORDER BY id";
 $stmt = $conn->prepare($questionsQuery);
 $stmt->bind_param("i", $quizID);
 $stmt->execute();

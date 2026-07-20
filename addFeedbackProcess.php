@@ -22,7 +22,7 @@ $quizID = intval($_POST['quizID']);
 $rating = intval($_POST['rating']);
 $comments = trim($_POST['comments']);
 
-$stmt = $conn->prepare("INSERT INTO QuizFeedback (quizID, rating, comments, date) VALUES (?, ?, ?, NOW())");
+$stmt = $conn->prepare("INSERT INTO quizfeedback (quizID, rating, comments, date) VALUES (?, ?, ?, NOW())");
 $stmt->bind_param("iis", $quizID, $rating, $comments);
 
 if ($stmt->execute()) {

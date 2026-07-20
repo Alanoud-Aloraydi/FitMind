@@ -25,10 +25,10 @@ if (!$quizID) {
 
 // Get topic name
 $stmt = $conn->prepare("
-    SELECT Topic.topicName 
-    FROM Quiz 
-    JOIN Topic ON Quiz.topicID = Topic.id 
-    WHERE Quiz.id = ?
+    SELECT topic.topicName 
+    FROM quiz 
+    JOIN topic ON quiz.topicID = topic.id 
+    WHERE quiz.id = ?
 ");
 $stmt->bind_param("i", $quizID);
 $stmt->execute();
@@ -45,7 +45,7 @@ $topicName = htmlspecialchars($quiz['topicName']);
 // Retrieve feedbacks for this quiz
 $stmt = $conn->prepare("
     SELECT comments, rating, date
-    FROM QuizFeedback
+    FROM quizfeedback
     WHERE quizID = ?
     ORDER BY date DESC
 ");

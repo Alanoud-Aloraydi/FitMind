@@ -16,7 +16,7 @@ if (!isset($_SESSION['userID']) || $_SESSION['userType'] !== 'learner') {
 
 
 $userID = intval($_SESSION['userID']);
-$topics = $conn->query("SELECT id, topicName FROM Topic ORDER BY topicName ASC");
+$topics = $conn->query("SELECT id, topicName FROM topic ORDER BY topicName ASC");
 ?>
 
 

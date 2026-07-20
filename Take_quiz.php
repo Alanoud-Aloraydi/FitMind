@@ -35,9 +35,9 @@ if (!isset($_GET['quizId']) || !is_numeric($_GET['quizId'])) {
 $quizId = intval($_GET['quizId']);
 
 $stmt = $conn->prepare("SELECT q.id, t.topicName, u.firstName, u.lastName, u.photoFileName 
-                        FROM Quiz q 
-                        JOIN Topic t ON q.topicID = t.id 
-                        JOIN User u ON q.educatorID = u.id 
+                        FROM quiz q 
+                        JOIN topic t ON q.topicID = t.id 
+                        JOIN user u ON q.educatorID = u.id 
                         WHERE q.id = ?");
 $stmt->bind_param("i", $quizId);
 $stmt->execute();
@@ -56,7 +56,7 @@ $educator_image = $quiz_row['photoFileName'] ?? 'person.png';
 $stmt->close();
 
 
-$stmt = $conn->prepare("SELECT * FROM QuizQuestion WHERE quizID = ?");
+$stmt = $conn->prepare("SELECT * FROM quizquestion WHERE quizID = ?");
 $stmt->bind_param("i", $quizId);
 $stmt->execute();
 $all_questions_result = $stmt->get_result();

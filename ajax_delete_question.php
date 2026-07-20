@@ -17,8 +17,8 @@ if (isset($_POST['questionID']) && isset($_POST['quizID'])) {
     // Verify the question belongs to the current educator
     $verifyStmt = $conn->prepare("
         SELECT qq.questionFigureFileName 
-        FROM QuizQuestion qq 
-        JOIN Quiz q ON qq.quizID = q.id 
+        FROM quizquestion qq 
+        JOIN quiz q ON qq.quizID = q.id 
         WHERE qq.id = ? AND q.educatorID = ?
     ");
     $verifyStmt->bind_param("ii", $questionID, $_SESSION['userID']);
@@ -33,7 +33,7 @@ if (isset($_POST['questionID']) && isset($_POST['quizID'])) {
     $question = $verifyResult->fetch_assoc();
     
     // Delete the question
-    $deleteQuery = "DELETE FROM QuizQuestion WHERE id = ?";
+    $deleteQuery = "DELETE FROM quizquestion WHERE id = ?";
     $stmt = $conn->prepare($deleteQuery);
     $stmt->bind_param("i", $questionID);
     
