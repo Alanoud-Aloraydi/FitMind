@@ -1,0 +1,7 @@
+# Real DB credentials — never commit (use db_config.example.php as a template)
+db_config.php
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+nbproject/private/
